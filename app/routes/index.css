@@ -1,0 +1,15 @@
+main {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.search-list {
+  background: rgba(0, 0, 0, 0.5);
+  color: currentColor;
+  max-height: 300px;
+  overflow: overlay;
+}
+
+.search-option:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
