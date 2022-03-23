@@ -3,5 +3,8 @@
     "env": {
       "ENABLE_FILE_SYSTEM_API": "1"
     }
+  },
+  "github": {
+    "silent": true
   }
 }
