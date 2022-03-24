@@ -11,6 +11,9 @@ export const loader: LoaderFunction = async ({ params }) => {
   }
 
   return new Response(buffer, {
-    headers: { 'Content-Length': `${buffer.length}` },
+    headers: {
+      'Content-Length': `${buffer.length}`,
+      'Cache-Control': 's-maxage=31536000, max-age=31536000',
+    },
   });
 };
