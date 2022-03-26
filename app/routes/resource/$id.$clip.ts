@@ -43,7 +43,9 @@ export const loader: LoaderFunction = async ({ params }) => {
   });
 };
 
-const ffmpegInstance = createFFmpeg();
+const ffmpegInstance = createFFmpeg({
+  corePath: require.resolve('@ffmpeg/core'),
+});
 async function getffmpegInstance() {
   if (!ffmpegInstance.isLoaded()) {
     await ffmpegInstance.load();
