@@ -10,6 +10,8 @@
     "postinstall": "remix setup node"
   },
   "dependencies": {
+    "@ffmpeg/core": "^0.10.0",
+    "@ffmpeg/ffmpeg": "^0.10.1",
     "@reach/combobox": "^0.16.5",
     "@remix-run/react": "^1.3.3",
     "@remix-run/vercel": "^1.3.3",

@@ -33,23 +33,17 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Index() {
   const fetcher = useFetcher();
 
-  useEffect(() => {
-    // fetch('/resource/full/lbA3jxab4A0')
-    //   .then((r) => r.text())
-    //   .then((r) => new File([atob(r)], 'test.webm'))
-    //   .then((file) => window.URL.createObjectURL(file))
-    //   .then((url) => window.open(url));
-  }, []);
-
   return (
     <main>
-      <h1>riffs.run</h1>
+      <h1>riffs!</h1>
 
-      <fetcher.Form method='post'>
+      <fetcher.Form method='post' autoComplete='off'>
         <Combobox aria-label='Search'>
           <ComboboxInput
             name='searchInput'
             onChange={({ currentTarget: { value } }) => fetcher.submit({ searchTerm: value }, { method: 'post' })}
+            autocomplete={false}
+            autoComplete='off'
           />
           {fetcher.data && (
             <ComboboxPopover>
@@ -67,11 +61,3 @@ export default function Index() {
     </main>
   );
 }
-
-const debounce = (fn: Function, ms: number) => {
-  let timer: number | undefined;
-  return (...args: any[]) => {
-    clearTimeout(timer);
-    timer = window.setTimeout(() => fn(...args), ms);
-  };
-};
