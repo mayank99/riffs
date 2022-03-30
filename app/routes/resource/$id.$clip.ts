@@ -3,8 +3,9 @@ import dl from 'ytdl-core';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import { spawn } from 'child_process';
-import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg';
+
+const spawn = require('child_process').spawn;
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { id: idOrUrl = '', clip = '' } = params;
@@ -24,7 +25,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   await new Promise((resolve) => {
     spawn(ffmpegPath, ['-i', inputPath, '-ss', `${start}`, '-t', `${end - start}`, '-acodec', 'copy', outputPath], {
       stdio: ['inherit'],
-    }).on('close', (_) => {
+    }).on('close', () => {
       fs.promises.rm(inputPath);
       resolve(null);
     });
