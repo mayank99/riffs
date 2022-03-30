@@ -1,38 +1,47 @@
 import { LoaderFunction } from 'remix';
-// import { spawn } from 'child_process';
-// import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg';
-// import dl from 'ytdl-core';
+import dl from 'ytdl-core';
+import fs from 'fs';
+import os from 'os';
+import path from 'path';
+import { spawn } from 'child_process';
+import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg';
 
 export const loader: LoaderFunction = async ({ params }) => {
-  // const { id = '', clip = '' } = params;
-  // const [start, end] = clip.split(',').map((x) => parseInt(x, 10));
-  // if (end - start > 100) {
-  //   throw new Error('clip too long');
-  // }
+  const { id: idOrUrl = '', clip = '' } = params;
+  const originalStream = dl(idOrUrl, { filter: 'audioonly', quality: 'highestaudio' });
   // const info = await dl.getInfo(id);
   // const { container = 'webm' } = dl.chooseFormat(info.formats, { filter: 'audioonly', quality: 'highestaudio' });
-  // const stream = dl(id, { filter: 'audioonly', quality: 'highestaudio' });
-  // const inputFileName = `${id}.${container}`;
-  // const outputFileName = `${
-  //   info.videoDetails?.media?.song ?? info.videoDetails?.title.substr(0, 30) ?? id
-  // } - ${start}-${end}.${container}`;
-  // let buffer = Buffer.from([]);
-  // for await (const chunk of stream) {
-  //   buffer = Buffer.concat([buffer, chunk]);
-  // }
-  // console.log(ffmpegPath);
-  // const ffmpegProc = spawn(ffmpegPath, [
-  //   '-i',
-  //   inputFileName,
-  //   '-ss',
-  //   `${start}`,
-  //   '-t',
-  //   `${end - start}`,
-  //   '-acodec',
-  //   'copy',
-  //   outputFileName,
-  // ]);
-  return 'hi';
+
+  const [start, end] = clip.split(',').map((x) => parseInt(x, 10));
+  if (end - start > 100) {
+    throw new Error('clip too long');
+  }
+
+  const inputPath = path.join(os.tmpdir(), 'input.webm');
+  const outputPath = path.join(os.tmpdir(), 'output.webm');
+  await fs.promises.writeFile(inputPath, originalStream);
+
+  await new Promise((resolve) => {
+    spawn(ffmpegPath, ['-i', inputPath, '-ss', `${start}`, '-t', `${end - start}`, '-acodec', 'copy', outputPath], {
+      stdio: ['inherit'],
+    }).on('close', (_) => {
+      fs.promises.rm(inputPath);
+      resolve(null);
+    });
+  });
+
+  const output = await fs.promises.readFile(outputPath);
+  fs.promises.rm(outputPath);
+
+  return new Response(output.buffer, {
+    status: 200,
+    headers: {
+      'Content-Type': `audio/webm`,
+      // 'Cache-Control': 's-maxage=31536000, max-age=31536000',
+      // 'Content-Length': `${outputData.length}`,
+      // 'Content-Disposition': `filename="${outputFileName}"`,
+    },
+  });
 };
 
 // import { createFFmpeg } from '@ffmpeg/ffmpeg';
