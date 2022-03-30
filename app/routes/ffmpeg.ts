@@ -1,6 +1,6 @@
 import { LoaderFunction } from 'remix';
-import { spawn } from 'child_process';
 import { path as ffmpegPath } from '@ffmpeg-installer/ffmpeg';
+const spawn = require('child_process').spawn;
 
 export const loader: LoaderFunction = async ({ params }) => {
   console.log(ffmpegPath);
