@@ -1,15 +1,127 @@
+:root {
+  --reach-combobox: 1;
+
+  --lightness: 75%;
+  --bg-color: hsl(0 0% 90% / 0.9);
+  --highlight-color: hsl(0 0% 70% / 0.5);
+  --focus-color: hsl(0 0% 0% / 0.8);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --lightness: 25%;
+    --bg-color: hsl(0 0% 10% / 0.8);
+    --highlight-color: hsl(0 0% 30% / 0.5);
+    --focus-color: hsl(0 0% 100% / 0.8);
+  }
+}
+
+@media (pointer: fine) {
+  * {
+    scrollbar-width: thin;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0.5em;
+    background: hsl(0 0% var(--lightness) / 0.1);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(0 0% var(--lightness) / 0.7);
+    border-radius: 0.5em;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(0 0% var(--lightness) / 0.8);
+  }
+}
+
 main {
+  height: 100%;
   display: grid;
   gap: 0.75rem;
+  place-content: center;
+  place-items: center;
+}
+
+.logo {
+  font-style: italic;
+  font-weight: 500;
+}
+
+.search-input {
+  font: inherit;
+  width: min(80vw, 400px);
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: hsl(0 0% var(--lightness) / 0.5);
 }
 
 .search-list {
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--bg-color);
   color: currentColor;
+  list-style: none;
+  padding: 0;
+  user-select: none;
   max-height: 300px;
-  overflow: overlay;
+  width: 100%;
+  overflow-y: auto;
+  overflow-y: overlay;
+  border-radius: 0.5rem;
+  margin-top: 4px;
+  box-shadow: 0 1px 4px hsl(0 0% 0% / 0.25);
+}
+
+.search-option {
+  display: grid;
+  padding: 0.5rem 0.75rem;
+  grid-template: 'thumbnail title' 'thumbnail subtitle' / auto 1fr;
+  column-gap: 0.75rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
 }
 
 .search-option:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--highlight-color);
+}
+
+.search-option[aria-selected='true'] {
+  background: var(--highlight-color);
+  outline: 1px solid var(--focus-color);
+  outline-offset: -1px;
+}
+
+.search-option-thumbnail {
+  grid-area: thumbnail;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2px;
+  background: var(--thumbnail);
+  background-size: cover;
+  align-self: center;
+}
+
+.search-option-title {
+  grid-area: title;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.search-option-subtitle {
+  grid-area: subtitle;
+  display: flex;
+}
+
+.search-option-subtitle > * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 25ch;
+}
+
+.search-option-subtitle > * + *::before {
+  content: '•';
+  margin: 0 0.25rem;
 }

@@ -1,15 +1,11 @@
+import * as React from 'react';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
-import { ActionFunction, LinksFunction, useFetcher } from 'remix';
-import reachBase from '@reach/combobox/styles.css';
+import { ActionFunction, json, LinksFunction, useFetcher } from 'remix';
 import styles from './index.css';
-
 import { search } from '~/utils/search';
 import { debounce } from '~/utils/debounce';
 
-export const links: LinksFunction = () => [
-  { rel: 'stylesheet', href: reachBase },
-  { rel: 'stylesheet', href: styles },
-];
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export const action: ActionFunction = async ({ request }) => {
   const { searchTerm } = Object.fromEntries(await request.formData());
@@ -17,19 +13,23 @@ export const action: ActionFunction = async ({ request }) => {
 
   const searchResults = await search(searchTerm);
 
-  return searchResults
-    .map((item) => ({
-      title: item.title,
-      id: item.id,
-      thumbnail: item.thumbnail,
-      artists: item.artists,
-      duration: item.duration,
-    }))
-    .filter(Boolean);
+  return json(
+    searchResults
+      .map((item) => ({
+        title: item.title,
+        id: item.id,
+        thumbnail: item.thumbnail,
+        artists: item.artists,
+        duration: item.duration,
+      }))
+      .filter(Boolean)
+  );
 };
 
 export default function Index() {
   const fetcher = useFetcher();
+
+  const listRef = React.useRef<HTMLUListElement>(null);
 
   const doSearch = async (searchTerm: string) => {
     if (searchTerm.length >= 3) {
@@ -39,25 +39,42 @@ export default function Index() {
 
   return (
     <main>
-      <h1>riffs!</h1>
+      <h1 className='logo'>riffs</h1>
 
       <fetcher.Form method='post' autoComplete='off'>
-        <Combobox aria-label='Search'>
+        <Combobox aria-label='Search for a song or enter a url'>
           <ComboboxInput
-            name='searchInput'
-            onInput={({ currentTarget: { value } }) => debounce(doSearch, Math.max(20, 150 - value.length * 20))(value)}
+            name='searchTerm'
+            className='search-input'
             autocomplete={false}
             autoComplete='off'
-            placeholder='Song name'
+            placeholder='Search for a song or enter a url'
+            onInput={({ currentTarget: { value } }) => debounce(doSearch, Math.max(20, 150 - value.length * 20))(value)}
+            onKeyDown={(e) => {
+              if (e.isDefaultPrevented() || !listRef.current || !e.key.startsWith('Arrow')) return;
+              window.requestAnimationFrame(() => {
+                listRef.current?.querySelector('[data-highlighted]')?.scrollIntoView({ block: 'nearest' });
+              });
+            }}
           />
           {fetcher.data && (
-            <ComboboxPopover>
-              <ComboboxList className='search-list'>
-                {fetcher.data.map((item: Record<string, string>) => (
-                  <ComboboxOption key={item.id} value={item.id} className='search-option'>
-                    {item.title} - {item.artists}
-                  </ComboboxOption>
-                ))}
+            <ComboboxPopover className='search-popover'>
+              <ComboboxList className='search-list' ref={listRef}>
+                {(fetcher.data as Awaited<ReturnType<typeof search>>)
+                  .filter((item) => !!item.id)
+                  .map((item) => (
+                    <ComboboxOption key={item.id} value={item.id!} className='search-option'>
+                      <span
+                        className='search-option-thumbnail'
+                        style={{ '--thumbnail': `url(${item.thumbnail})` } as React.CSSProperties}
+                      />
+                      <span className='search-option-title'>{item.title}</span>
+                      <span className='search-option-subtitle'>
+                        <small>{item.artists?.[0]}</small>
+                        <small>{item.duration}</small>
+                      </span>
+                    </ComboboxOption>
+                  ))}
               </ComboboxList>
             </ComboboxPopover>
           )}

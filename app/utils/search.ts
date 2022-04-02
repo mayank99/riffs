@@ -16,16 +16,21 @@ export const search = async (query: string) => {
     }
   ).then((r) => r.json());
 
-  const items =
-    response.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents
-      .pop()
-      .musicShelfRenderer.contents.map(({ musicResponsiveListItemRenderer }: any) => ({
-        title: getTitle(musicResponsiveListItemRenderer),
-        id: getId(musicResponsiveListItemRenderer),
-        artists: getArtists(musicResponsiveListItemRenderer),
-        thumbnail: getThumbnail(musicResponsiveListItemRenderer),
-        duration: getDuration(musicResponsiveListItemRenderer),
-      })) ?? [];
+  let items = [];
+  try {
+    items =
+      response.contents.tabbedSearchResultsRenderer.tabs[0].tabRenderer.content.sectionListRenderer.contents
+        .pop()
+        .musicShelfRenderer.contents.map(({ musicResponsiveListItemRenderer }: any) => ({
+          title: getTitle(musicResponsiveListItemRenderer),
+          id: getId(musicResponsiveListItemRenderer),
+          artists: getArtists(musicResponsiveListItemRenderer),
+          thumbnail: getThumbnail(musicResponsiveListItemRenderer),
+          duration: getDuration(musicResponsiveListItemRenderer),
+        })) ?? [];
+  } catch (err) {
+    console.error('Oopsie', err);
+  }
 
   return items as Array<Partial<{ title: string; id: string; artists: string[]; thumbnail: string; duration: string }>>;
 };

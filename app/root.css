@@ -1,0 +1,20 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: dark light;
+  font-family: system-ui, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+img {
+  max-width: 100%;
+}
