@@ -18,7 +18,10 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <Outlet />
+        <main>
+          <h1 className='logo'>riffs</h1>
+          <Outlet />
+        </main>
         <ScrollRestoration />
         <Scripts />
         <LiveReload />

@@ -16,39 +16,6 @@
   }
 }
 
-@media (pointer: fine) {
-  * {
-    scrollbar-width: thin;
-  }
-
-  ::-webkit-scrollbar {
-    width: 0.5em;
-    background: hsl(0 0% var(--lightness) / 0.1);
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: hsl(0 0% var(--lightness) / 0.7);
-    border-radius: 0.5em;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(0 0% var(--lightness) / 0.8);
-  }
-}
-
-main {
-  height: 100%;
-  display: grid;
-  gap: 0.75rem;
-  place-content: center;
-  place-items: center;
-}
-
-.logo {
-  font-style: italic;
-  font-weight: 500;
-}
-
 .search-input-wrapper {
   display: grid;
 }
