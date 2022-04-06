@@ -63,7 +63,7 @@ export default function Index() {
               {fetcher.data
                 .filter((item) => !!item.id)
                 .map((item) => (
-                  <ComboboxOption key={item.id} value={item.title!} className='search-option'>
+                  <ComboboxOption key={item.id} value={item.id!} className='search-option'>
                     <span
                       className='search-option-thumbnail'
                       style={{ '--thumbnail': `url(${item.thumbnail})` } as React.CSSProperties}
