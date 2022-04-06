@@ -42,7 +42,10 @@ export default function Index() {
       <h1 className='logo'>riffs</h1>
 
       <fetcher.Form method='post' autoComplete='off'>
-        <Combobox aria-label='Search for a song or enter a url'>
+        <Combobox
+          aria-label='Search for a song or enter a url'
+          className={`search-input-wrapper ${fetcher.state !== 'idle' ? 'loading' : ''}`}
+        >
           <ComboboxInput
             name='searchTerm'
             className='search-input'
@@ -63,7 +66,7 @@ export default function Index() {
                 {(fetcher.data as Awaited<ReturnType<typeof search>>)
                   .filter((item) => !!item.id)
                   .map((item) => (
-                    <ComboboxOption key={item.id} value={item.id!} className='search-option'>
+                    <ComboboxOption key={item.id} value={item.title!} className='search-option'>
                       <span
                         className='search-option-thumbnail'
                         style={{ '--thumbnail': `url(${item.thumbnail})` } as React.CSSProperties}

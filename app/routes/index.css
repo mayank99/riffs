@@ -49,7 +49,34 @@ main {
   font-weight: 500;
 }
 
+.search-input-wrapper {
+  display: grid;
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.search-input-wrapper.loading::after {
+  grid-area: 1 / -1;
+  content: '';
+  justify-self: end;
+  align-self: center;
+  margin-right: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 0.2em solid;
+  animation: loading 1s ease-in-out infinite;
+  --loader-color: hsl(0 0% 50%);
+  border-color: var(--loader-color) var(--loader-color) transparent transparent;
+}
+
 .search-input {
+  grid-area: 1 / -1;
   font: inherit;
   width: min(80vw, 400px);
   padding: 0.75rem;
