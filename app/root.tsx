@@ -18,8 +18,10 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <main>
+        <header>
           <h1 className='logo'>riffs</h1>
+        </header>
+        <main>
           <Outlet />
         </main>
         <ScrollRestoration />

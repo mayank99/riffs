@@ -39,8 +39,23 @@ img {
   }
 }
 
+body {
+  display: grid;
+  place-items: center;
+  grid-template-rows: 1fr auto 1fr 1fr;
+}
+
+body::before,
+body::after {
+  content: '';
+}
+
+header {
+  padding: 1rem;
+}
+
 main {
-  height: 100%;
+  align-self: start;
   display: grid;
   gap: 0.75rem;
   place-content: center;
