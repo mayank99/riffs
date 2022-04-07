@@ -3,7 +3,6 @@ import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption 
 import { ActionFunction, json, LinksFunction, useFetcher } from 'remix';
 import styles from './index.css';
 import { search } from '~/utils/search';
-import { debounce } from '~/utils/debounce';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
@@ -49,7 +48,7 @@ export default function Index() {
           autocomplete={false}
           autoComplete='off'
           placeholder='Search for a song or enter a url'
-          onInput={({ currentTarget: { value } }) => debounce(doSearch, Math.max(20, 150 - value.length * 20))(value)}
+          onInput={({ currentTarget: { value } }) => doSearch(value)}
           onKeyDown={(e) => {
             if (e.isDefaultPrevented() || !listRef.current || !e.key.startsWith('Arrow')) return;
             window.requestAnimationFrame(() => {
