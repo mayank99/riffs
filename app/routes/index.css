@@ -68,22 +68,23 @@
 }
 
 .search-option {
+  all: unset;
   display: grid;
   padding: 0.5rem 0.75rem;
   grid-template: 'thumbnail title' 'thumbnail subtitle' / auto 1fr;
   column-gap: 0.75rem;
   cursor: pointer;
-  border-radius: 0.5rem;
 }
 
 .search-option:hover {
   background: var(--highlight-color);
 }
 
-.search-option[aria-selected='true'] {
+.search-list > [data-highlighted] {
   background: var(--highlight-color);
   outline: 1px solid var(--focus-color);
   outline-offset: -1px;
+  border-radius: 0.5rem;
 }
 
 .search-option-thumbnail {
