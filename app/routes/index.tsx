@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
 import { ActionFunction, json, LinksFunction, useFetcher, useNavigate } from 'remix';
 import styles from './index.css';
-import { search } from '~/utils/search';
+import { search } from '~/helpers/search';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
