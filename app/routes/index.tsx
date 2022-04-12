@@ -71,9 +71,8 @@ export default function Index() {
         {fetcher.data && (
           <ComboboxPopover className='search-popover'>
             <ComboboxList className='search-list' ref={listRef}>
-              {fetcher.data
-                .filter((item) => !!item.id)
-                .map((item) => (
+              {fetcher.data.flatMap((item) =>
+                item.id ? (
                   <ComboboxOption key={item.id} value={item.id!}>
                     <a href={`/${item.id}`} className='search-option'>
                       <span
@@ -88,7 +87,10 @@ export default function Index() {
                       </span>
                     </a>
                   </ComboboxOption>
-                ))}
+                ) : (
+                  []
+                )
+              )}
             </ComboboxList>
           </ComboboxPopover>
         )}
