@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
-import { ActionFunction, json, LinksFunction, useFetcher, useNavigate } from 'remix';
+import type { ActionFunction, LinksFunction } from 'remix';
+import { Link } from 'remix';
+import { json, useFetcher, useNavigate } from 'remix';
 import styles from './index.css';
 import { search } from '~/helpers/search';
 
@@ -71,13 +73,13 @@ export default function Index() {
         {fetcher.data && (
           <ComboboxPopover className='search-popover'>
             <ComboboxList className='search-list' ref={listRef}>
-              {fetcher.data.flatMap((item) =>
+              {fetcher.data.flatMap((item, index) =>
                 item.id ? (
-                  <ComboboxOption key={item.id} value={item.id!}>
-                    <a href={`/${item.id}`} className='search-option'>
+                  <ComboboxOption key={`${index}-${item.id}`} value={item.id!}>
+                    <Link prefetch='intent' to={`/${item.id}`} className='search-option'>
                       <span
                         className='search-option-thumbnail'
-                        style={{ '--thumbnail': `url(${item.thumbnail})` } as React.CSSProperties}
+                        style={{ '--thumbnail': `url(${item.thumbnail})` }}
                         aria-hidden
                       />
                       <span className='search-option-title'>{item.title}</span>
@@ -85,7 +87,7 @@ export default function Index() {
                         <small>{item.artists?.[0]}</small>
                         <small>{item.duration}</small>
                       </span>
-                    </a>
+                    </Link>
                   </ComboboxOption>
                 ) : (
                   []
