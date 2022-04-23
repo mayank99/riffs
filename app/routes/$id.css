@@ -81,8 +81,8 @@ h2::first-line {
   all: unset;
   will-change: transform;
   margin-top: 2rem;
-  display: grid;
   cursor: pointer;
+  position: relative;
 }
 
 .clip-action-content {
@@ -99,4 +99,31 @@ h2::first-line {
 .clip-action:hover .clip-action-content {
   transform: translateY(-2px);
   transition: transform 0.2s;
+}
+
+.clip-action.loading .clip-action-content {
+  background: hsl(0 0% 50% / 0.25);
+  opacity: 0.7;
+  transform: none;
+  cursor: wait;
+}
+
+.clip-action.loading::after {
+  content: '';
+  position: absolute;
+  margin-left: 0.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 0.2em solid;
+  animation: loading 1s ease-in-out infinite;
+  --loader-color: hsl(0 0% 50%);
+  border-color: var(--loader-color) var(--loader-color) transparent transparent;
+}
+
+@keyframes loading {
+  to {
+    transform: rotate(1turn);
+  }
 }

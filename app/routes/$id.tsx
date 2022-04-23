@@ -1,6 +1,7 @@
 import * as React from 'react';
 import type { LinksFunction, LoaderFunction } from 'remix';
-import { useParams } from 'remix';
+import { Link } from 'remix';
+import { useTransition } from 'remix';
 import { useLoaderData } from 'remix';
 import dl from 'ytdl-core';
 import { useSlider, useSliderThumb } from '@react-aria/slider';
@@ -22,8 +23,8 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 export default function $id() {
-  const { id } = useParams();
   const { songName, artist, duration } = useLoaderData();
+  const transition = useTransition();
 
   const center = Math.floor(duration / 2);
 
@@ -41,9 +42,12 @@ export default function $id() {
         {artist}
       </h2>
       <RangeSlider maxValue={duration} defaultValue={[center - 15, center + 15]} step={1} state={state} />
-      <a href={`/resource/${id}/${state.getThumbValue(0)},${state.getThumbValue(1)}`} className='clip-action'>
+      <Link
+        to={`${state.getThumbValue(0)},${state.getThumbValue(1)}`}
+        className={`clip-action ${transition.state !== 'idle' ? 'loading' : ''}`}
+      >
         <span className='clip-action-content'>Clip</span>
-      </a>
+      </Link>
     </>
   );
 }
