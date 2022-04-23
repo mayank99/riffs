@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Combobox, ComboboxInput, ComboboxPopover, ComboboxList, ComboboxOption } from '@reach/combobox';
 import type { ActionFunction, LinksFunction } from 'remix';
+import { useTransition } from 'remix';
 import { Link } from 'remix';
 import { json, useFetcher, useNavigate } from 'remix';
 import styles from './index.css';
@@ -30,6 +31,7 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Index() {
   const fetcher = useFetcher<Awaited<ReturnType<typeof search>>>();
   const navigate = useNavigate();
+  const transition = useTransition();
 
   const [inputValue, setInputValue] = React.useState('');
   const listRef = React.useRef<HTMLUListElement>(null);
@@ -44,7 +46,7 @@ export default function Index() {
     <fetcher.Form method='post' autoComplete='off'>
       <Combobox
         aria-label='Search for a song or enter a url'
-        className={`search-input-wrapper ${fetcher.state !== 'idle' ? 'loading' : ''}`}
+        className={`search-input-wrapper ${fetcher.state !== 'idle' || transition.state !== 'idle' ? 'loading' : ''}`}
         onSelect={(value) => {
           const item = fetcher.data?.find((item) => item.id === value);
           setInputValue(item?.title || '');
@@ -70,7 +72,7 @@ export default function Index() {
             }
           }}
         />
-        {fetcher.data && (
+        {fetcher.data && transition.state !== 'loading' && (
           <ComboboxPopover className='search-popover'>
             <ComboboxList className='search-list' ref={listRef}>
               {fetcher.data.flatMap((item, index) =>
