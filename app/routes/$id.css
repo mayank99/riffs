@@ -1,0 +1,102 @@
+h2 {
+  font-weight: 400;
+  font-size: 1.2rem;
+  max-width: 90vw;
+  white-space: pre-line;
+  text-align: center;
+}
+
+h2::first-line {
+  font-size: 1.4rem;
+}
+
+.slider {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  width: min(500px, 90vw);
+  touch-action: none;
+}
+
+.track {
+  position: relative;
+  height: 40px;
+  width: 100%;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+}
+
+.track::before {
+  content: '';
+  background-color: grey;
+  height: 4px;
+  width: 100%;
+}
+
+.track::after {
+  content: '';
+  position: absolute;
+  background: mediumvioletred;
+  height: 4px;
+  inset: var(--highlight-inset);
+}
+
+.thumb {
+  position: absolute;
+  transform: translateX(-50%);
+  left: var(--left);
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 50%;
+  background: grey;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  z-index: 1;
+}
+
+.thumb:focus-within {
+  outline: 1px solid mediumvioletred;
+  outline-offset: -1px;
+}
+
+.thumb:focus-within > output {
+  opacity: 1;
+}
+
+.thumb > output {
+  position: absolute;
+  transform: translateY(100%);
+  background: hsl(0 0% 50% / 0.25);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.clip-action {
+  all: unset;
+  will-change: transform;
+  margin-top: 2rem;
+  display: grid;
+  cursor: pointer;
+}
+
+.clip-action-content {
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+  background: mediumvioletred;
+  color: white;
+  transition: transform 0.2s;
+}
+
+.clip-action:hover .clip-action-content {
+  transform: translateY(-2px);
+  transition: transform 0.2s;
+}

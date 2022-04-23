@@ -1,4 +1,4 @@
-import { LoaderFunction } from 'remix';
+import type { LoaderFunction } from 'remix';
 import dl from 'ytdl-core';
 import fs from 'fs';
 import os from 'os';
@@ -43,8 +43,8 @@ export const loader: LoaderFunction = async ({ params }) => {
     headers: {
       'Content-Type': `audio/mpeg`,
       'Content-Disposition': `filename="${songName}.${start}-${end}.mp3"`,
-      // 'Cache-Control': 's-maxage=31536000, max-age=31536000',
-      // 'Content-Length': `${outputData.length}`,
+      'Cache-Control': 's-maxage=31536000, max-age=31536000',
+      // 'Content-Length': `${output.length}`,
     },
   });
 };

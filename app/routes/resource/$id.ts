@@ -1,4 +1,4 @@
-import { LoaderFunction } from 'remix';
+import type { LoaderFunction } from 'remix';
 import dl from 'ytdl-core';
 
 export const loader: LoaderFunction = async ({ params }) => {
