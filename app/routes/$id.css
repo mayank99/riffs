@@ -39,7 +39,7 @@ h2::first-line {
 .track::after {
   content: '';
   position: absolute;
-  background: mediumvioletred;
+  background: var(--accent-color);
   height: 4px;
   inset: var(--highlight-inset);
 }
@@ -51,7 +51,7 @@ h2::first-line {
   width: 0.5rem;
   height: 1.5rem;
   border-radius: 2px;
-  background: mediumvioletred;
+  background: var(--accent-color);
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -77,7 +77,7 @@ h2::first-line {
 }
 
 .thumb:focus-within {
-  outline: 1px solid mediumvioletred;
+  outline: 1px solid var(--accent-color);
   outline-offset: 2px;
 }
 
@@ -109,7 +109,7 @@ h2::first-line {
   border: 1px solid transparent;
   padding: 0.5rem 1.5rem;
   font-size: 1.2rem;
-  background: mediumvioletred;
+  background: var(--accent-color);
   color: white;
   transition: transform 0.2s;
 }

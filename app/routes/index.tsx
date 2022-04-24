@@ -58,6 +58,7 @@ export default function Index() {
           className='search-input'
           autocomplete={false}
           autoComplete='off'
+          autoFocus
           placeholder='Search for a song or enter a url'
           value={inputValue}
           onInput={({ currentTarget: { value } }) => {

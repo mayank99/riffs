@@ -1,3 +1,22 @@
+:root {
+  --reach-combobox: 1;
+
+  --lightness: 75%;
+  --bg-color: hsl(0 0% 90% / 0.9);
+  --highlight-color: hsl(0 0% 70% / 0.5);
+  --focus-color: hsl(0 0% 0% / 0.8);
+  --accent-color: hsl(260deg 56% 50% / 90%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --lightness: 25%;
+    --bg-color: hsl(0 0% 10% / 0.8);
+    --highlight-color: hsl(0 0% 30% / 0.5);
+    --focus-color: hsl(0 0% 100% / 0.8);
+  }
+}
+
 *,
 *::before,
 *::after {
