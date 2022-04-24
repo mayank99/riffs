@@ -48,19 +48,37 @@ h2::first-line {
   position: absolute;
   transform: translateX(-50%);
   left: var(--left);
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 50%;
-  background: grey;
+  width: 0.5rem;
+  height: 1.5rem;
+  border-radius: 2px;
+  background: mediumvioletred;
   cursor: pointer;
   display: flex;
   justify-content: center;
   z-index: 1;
 }
 
+.thumb::before {
+  content: '';
+  border-left: 0.5px solid hsl(0 0% 100% / 0.7);
+  margin: 0.25rem auto;
+}
+
+/* increase tap target size on touch devices */
+@media (pointer: coarse) {
+  .thumb::after {
+    content: '';
+    position: absolute;
+    height: 3rem;
+    width: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
 .thumb:focus-within {
   outline: 1px solid mediumvioletred;
-  outline-offset: -1px;
+  outline-offset: 2px;
 }
 
 .thumb:focus-within > output {
@@ -86,7 +104,7 @@ h2::first-line {
 }
 
 .clip-action-content {
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   text-transform: uppercase;
   border: 1px solid transparent;
   padding: 0.5rem 1.5rem;
