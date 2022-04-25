@@ -31,5 +31,5 @@ export const loader: LoaderFunction = async ({ request }) => {
   }
 
   const png = await fs.promises.readFile(outputPath2);
-  return png;
+  return new Response(png.buffer, { status: 200, headers: { 'Content-Type': 'image/png' } });
 };
