@@ -11,7 +11,7 @@ const ffmpeg = require('@ffmpeg-installer/ffmpeg').path;
 export const loader: LoaderFunction = async () => {
   const originalStream = dl('QNvsMEZqt5Y', { filter: 'audioonly', quality: 'highestaudio' });
 
-  const inputPath1 = path.join(os.tmpdir(), 'input.webm');
+  const inputPath1 = path.join(os.tmpdir(), 'input.opus');
   const inputPath2 = path.join(os.tmpdir(), 'input.mp3');
   const outputPath1 = path.join(os.tmpdir(), 'test.dat');
   const outputPath2 = path.join(os.tmpdir(), 'test.png');
