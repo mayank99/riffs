@@ -2,8 +2,9 @@ import type { LoaderFunction } from 'remix';
 import os from 'os';
 import fs from 'fs';
 import path from 'path';
+const util = require('util');
+const exec = util.promisify(require('child_process').exec);
 const awf = require('@craft-cloud/audiowaveform-static-aws');
-const { exec } = require('child_process');
 
 export const loader: LoaderFunction = async ({ request }) => {
   let str = '';
@@ -15,46 +16,19 @@ export const loader: LoaderFunction = async ({ request }) => {
   const inputPath = path.join(os.tmpdir(), 'input.mp3');
   const outputPath1 = path.join(os.tmpdir(), 'test.dat');
   const outputPath2 = path.join(os.tmpdir(), 'test.png');
+  await fs.promises.writeFile(inputPath, Buffer.from(originalStream));
 
-  if (originalStream) {
-    await fs.promises.writeFile(inputPath, Buffer.from(originalStream));
+  {
+    const { stdout, stderr } = await exec(`${awf()} --i ${inputPath} -o ${outputPath1} -b 8`);
+    console.log('stdout:', stdout);
+    console.error('stderr:', stderr);
   }
 
-  await new Promise((resolve) => {
-    exec(`${awf()} --i ${inputPath} -o ${outputPath1} -b 8`, (error, stdout, stderr) => {
-      if (error) {
-        str = `error: ${error.message}`;
-        resolve(null);
-      }
-
-      if (stderr) {
-        str = `stderr: ${stderr}`;
-        resolve(null);
-      }
-
-      str = `stdout:\n${stdout}`;
-      resolve(null);
-    });
-  });
-
-  await new Promise((resolve) => {
-    exec(`${awf()} --i ${outputPath1} -o ${outputPath2} -z 512`, (error, stdout, stderr) => {
-      if (error) {
-        str = `error: ${error.message}`;
-        resolve(null);
-      }
-
-      if (stderr) {
-        str = `stderr: ${stderr}`;
-        resolve(null);
-      }
-
-      str = `stdout:\n${stdout}`;
-      resolve(null);
-    });
-  });
-
-  await new Promise((res) => setTimeout(() => res(true), 5000));
+  {
+    const { stdout, stderr } = await exec(`${awf()} --i ${outputPath1} -o ${outputPath2} -z 512`);
+    console.log('stdout:', stdout);
+    console.error('stderr:', stderr);
+  }
 
   const png = await fs.promises.readFile(outputPath2);
   return png;
