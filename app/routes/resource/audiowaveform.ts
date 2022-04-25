@@ -8,7 +8,7 @@ const exec = util.promisify(require('child_process').exec);
 const awf = require('@craft-cloud/audiowaveform-static-aws');
 const ffmpeg = require('@ffmpeg-installer/ffmpeg').path;
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async () => {
   const originalStream = dl('QNvsMEZqt5Y', { filter: 'audioonly', quality: 'highestaudio' });
 
   const inputPath1 = path.join(os.tmpdir(), 'input.webm');
@@ -18,7 +18,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   await fs.promises.writeFile(inputPath1, originalStream);
 
   {
-    const { stdout, stderr } = await exec(`${ffmpeg} -i ${inputPath1} ${inputPath2}`);
+    const { stdout, stderr } = await exec(`${ffmpeg} -i ${inputPath1} -ab 128k -f mp3 ${inputPath2}`);
     console.log('stdout:', stdout);
     console.error('stderr:', stderr);
   }
