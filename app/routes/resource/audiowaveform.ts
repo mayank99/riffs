@@ -19,13 +19,13 @@ export const loader: LoaderFunction = async ({ request }) => {
   await fs.promises.writeFile(inputPath, Buffer.from(originalStream));
 
   {
-    const { stdout, stderr } = await exec(`${awf()} --i ${inputPath} -o ${outputPath1} -b 8`);
+    const { stdout, stderr } = await exec(`${awf()} -i ${inputPath} -o ${outputPath1} -b 8`);
     console.log('stdout:', stdout);
     console.error('stderr:', stderr);
   }
 
   {
-    const { stdout, stderr } = await exec(`${awf()} --i ${outputPath1} -o ${outputPath2} -z 512`);
+    const { stdout, stderr } = await exec(`${awf()} -i ${outputPath1} -o ${outputPath2} -z 512`);
     console.log('stdout:', stdout);
     console.error('stderr:', stderr);
   }
