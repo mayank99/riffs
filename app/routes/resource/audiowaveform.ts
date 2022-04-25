@@ -7,8 +7,6 @@ const exec = util.promisify(require('child_process').exec);
 const awf = require('@craft-cloud/audiowaveform-static-aws');
 
 export const loader: LoaderFunction = async ({ request }) => {
-  let str = '';
-
   const originalStream = await fetch(`${new URL(request.url).origin}/resource/QNvsMEZqt5Y`).then((res) =>
     res.arrayBuffer()
   );
