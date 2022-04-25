@@ -24,7 +24,9 @@ export const loader: LoaderFunction = async () => {
   }
 
   {
-    const { stdout, stderr } = await exec(`${awf()} -i ${inputPath2} -o ${outputPath2}`);
+    const { stdout, stderr } = await exec(
+      `${awf()} -i ${inputPath2} -o ${outputPath2} -z 300 -s 60.0 -e 90.0 -w 1000 -h 200`
+    );
     console.log('stdout:', stdout);
     console.error('stderr:', stderr);
   }
