@@ -13,13 +13,13 @@ export const loader: LoaderFunction = async ({ request }) => {
     res.arrayBuffer()
   );
 
-  const inputPath = path.join(os.tmpdir(), 'input.mp3');
+  const inputPath = path.join(os.tmpdir(), 'input.webm');
   const outputPath1 = path.join(os.tmpdir(), 'test.dat');
   const outputPath2 = path.join(os.tmpdir(), 'test.png');
   await fs.promises.writeFile(inputPath, Buffer.from(originalStream));
 
   {
-    const { stdout, stderr } = await exec(`${awf()} -i ${inputPath} -o ${outputPath1}`);
+    const { stdout, stderr } = await exec(`${awf()} -i ${inputPath} -o ${outputPath1} --input-format ogg`);
     console.log('stdout:', stdout);
     console.error('stderr:', stderr);
   }
