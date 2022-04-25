@@ -24,16 +24,16 @@ export const loader: LoaderFunction = async () => {
   }
 
   {
-    const { stdout, stderr } = await exec(`${awf()} -i ${inputPath2} -o ${outputPath1}`);
+    const { stdout, stderr } = await exec(`${awf()} -i ${inputPath2} -o ${outputPath2}`);
     console.log('stdout:', stdout);
     console.error('stderr:', stderr);
   }
 
-  {
-    const { stdout, stderr } = await exec(`${awf()} -i ${outputPath1} -o ${outputPath2}`);
-    console.log('stdout:', stdout);
-    console.error('stderr:', stderr);
-  }
+  // {
+  //   const { stdout, stderr } = await exec(`${awf()} -i ${outputPath1} -o ${outputPath2}`);
+  //   console.log('stdout:', stdout);
+  //   console.error('stderr:', stderr);
+  // }
 
   const png = await fs.promises.readFile(outputPath2);
   return new Response(png.buffer, { status: 200, headers: { 'Content-Type': 'image/png' } });
