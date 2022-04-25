@@ -54,6 +54,8 @@ export const loader: LoaderFunction = async ({ request }) => {
     });
   });
 
+  await new Promise((res) => setTimeout(() => res(true), 5000));
+
   const png = await fs.promises.readFile(outputPath2);
   return png;
 };
