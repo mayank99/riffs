@@ -1,0 +1,9 @@
+audio::-webkit-media-controls-panel {
+  background: hsl(270deg 40% 87%);
+}
+
+@media (prefers-color-scheme: dark) {
+  audio::-webkit-media-controls-panel {
+    background: hsl(270deg 40% 13%);
+  }
+}

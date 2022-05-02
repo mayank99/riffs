@@ -1,6 +1,9 @@
 import * as React from 'react';
-import { useHref } from 'remix';
-import { useParams } from 'remix';
+import type { LinksFunction } from 'remix';
+import { useHref, useParams } from 'remix';
+import styles from './$id.$clip.css';
+
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export default function $clip() {
   const { id, clip } = useParams();

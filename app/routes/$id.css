@@ -31,7 +31,7 @@ h2::first-line {
 
 .track::before {
   content: '';
-  background-color: grey;
+  background-color: hsl(0 0% 0% / 0.5);
   height: 4px;
   width: 100%;
 }
@@ -97,13 +97,14 @@ h2::first-line {
 
 .clip-action {
   all: unset;
-  will-change: transform;
   margin-top: 2rem;
   cursor: pointer;
   position: relative;
 }
 
 .clip-action-content {
+  position: absolute;
+  transform: translateX(-50%);
   border-radius: 0.5rem;
   text-transform: uppercase;
   border: 1px solid transparent;
@@ -112,11 +113,16 @@ h2::first-line {
   background: var(--accent-color);
   color: white;
   transition: transform 0.2s;
+  will-change: transform;
 }
 
 .clip-action:hover .clip-action-content {
-  transform: translateY(-2px);
-  transition: transform 0.2s;
+  transform: translate(-50%, -2px);
+}
+
+.clip-action:focus-visible .clip-action-content {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
 }
 
 .clip-action.loading .clip-action-content {
