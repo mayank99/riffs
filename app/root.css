@@ -89,7 +89,7 @@ img {
 body {
   display: grid;
   place-items: center;
-  grid-template-rows: 1fr auto 1fr 1fr;
+  grid-template-rows: 1fr auto 2fr 1fr;
 }
 
 body::before,
