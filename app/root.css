@@ -1,6 +1,7 @@
 :root {
   --reach-combobox: 1;
 
+  --fg-hsl: 0 0% 0%;
   --lightness: 75%;
   --bg-color: hsl(0 0% 80% / 0.4);
   --highlight-color: hsl(0 0% 70% / 0.5);
@@ -11,6 +12,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --fg-hsl: 0 0% 100%;
     --lightness: 25%;
     --bg-color: hsl(0 0% 20% / 0.4);
     --highlight-color: hsl(0 0% 30% / 0.5);

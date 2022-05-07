@@ -1,0 +1,84 @@
+.slider {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+  width: min(500px, 90vw);
+  touch-action: none;
+}
+
+.track {
+  position: relative;
+  height: 40px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.track::before {
+  content: '';
+  background-color: hsl(0 0% 0% / 0.25);
+  height: 4px;
+  width: 100%;
+}
+
+.track::after {
+  content: '';
+  position: absolute;
+  background: var(--accent-color);
+  height: 4px;
+  inset: var(--highlight-inset);
+}
+
+.thumb {
+  position: absolute;
+  transform: translateX(-50%);
+  left: var(--left);
+  width: 0.5rem;
+  height: 1.5rem;
+  background-color: hsl(0 0% 50% / 0.75);
+  cursor: pointer;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.clip-thumb::before {
+  content: '';
+  border-left: 0.5px solid hsl(0 0% 100% / 0.7);
+  margin: 0.25rem auto;
+}
+
+/* increase tap target size on touch devices */
+@media (pointer: coarse) {
+  .thumb::after {
+    content: '';
+    position: absolute;
+    height: 3rem;
+    width: 3rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.thumb:focus-within {
+  outline: 1px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* output is shown as a "tooltip" below the thumb */
+.thumb > output {
+  position: absolute;
+  transform: translateY(100%);
+  background: hsl(0 0% 50% / 0.25);
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.thumb:focus-within > output {
+  opacity: 1;
+}

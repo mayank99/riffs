@@ -1,16 +1,16 @@
 import * as React from 'react';
 import type { LinksFunction, LoaderFunction } from 'remix';
-import { useParams } from 'remix';
-import { Link } from 'remix';
-import { useTransition } from 'remix';
-import { useLoaderData } from 'remix';
+import { useParams, Link, useTransition, useLoaderData } from 'remix';
+import { useInterval } from '~/helpers/useInterval';
+import { Slider } from '~/helpers/Slider';
 import dl from 'ytdl-core';
-import { useSlider, useSliderThumb } from '@react-aria/slider';
-import type { SliderState } from '@react-stately/slider';
 import { useSliderState } from '@react-stately/slider';
 import styles from './$id.css';
 
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: Slider.styles },
+  { rel: 'stylesheet', href: styles },
+];
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { id = '' } = params;
@@ -30,7 +30,7 @@ export default function $id() {
 
   const center = Math.floor(duration / 2);
 
-  const sliderState = useSliderState({
+  const clipSliderState = useSliderState({
     numberFormatter: React.useMemo(() => new Intl.NumberFormat(), []),
     maxValue: duration,
     defaultValue: [center - 15, center + 15],
@@ -50,6 +50,22 @@ export default function $id() {
     }
   }, [isPlaying]);
 
+  const [currentTime, setCurrentTime] = React.useState(0);
+  useInterval(() => setCurrentTime(Math.round(audioRef.current?.currentTime ?? 0)), isPlaying ? 1000 : null);
+
+  const currentTimeSliderState = useSliderState({
+    numberFormatter: React.useMemo(() => new Intl.NumberFormat(), []),
+    maxValue: duration,
+    defaultValue: [0],
+    value: [currentTime],
+    onChange: React.useCallback(([value]) => {
+      setCurrentTime(value);
+      if (audioRef.current != null && audioRef.current.currentTime !== value) {
+        audioRef.current.currentTime = value;
+      }
+    }, []),
+  });
+
   return (
     <>
       <h2>
@@ -57,12 +73,34 @@ export default function $id() {
         {'\n'}
         {artist}
       </h2>
+
       <button className='play-pause-button' onClick={() => setIsPlaying((p) => !p)} aria-label='Play/pause the song'>
         {isPlaying ? <SvgPause /> : <SvgPlay />}
       </button>
-      <RangeSlider maxValue={duration} defaultValue={[center - 15, center + 15]} step={1} state={sliderState} />
+
+      <div className='slider-container'>
+        <Slider maxValue={duration} defaultValue={[0]} step={1} state={currentTimeSliderState}>
+          <Slider.Thumb className='progress-thumb' aria-label='Current time' />
+        </Slider>
+
+        <Slider
+          maxValue={duration}
+          defaultValue={[center - 15, center + 15]}
+          step={1}
+          state={clipSliderState}
+          style={{
+            '--highlight-inset': `auto ${100 - clipSliderState.getThumbPercent(1) * 100}% auto ${
+              clipSliderState.getThumbPercent(0) * 100
+            }%`,
+          }}
+        >
+          <Slider.Thumb className='clip-thumb' aria-label='Start time for riff' />
+          <Slider.Thumb className='clip-thumb' aria-label='End time for riff' />
+        </Slider>
+      </div>
+
       <Link
-        to={`${sliderState.getThumbValue(0)},${sliderState.getThumbValue(1)}`}
+        to={`${clipSliderState.getThumbValue(0)},${clipSliderState.getThumbValue(1)}`}
         className={`clip-action ${transition.state !== 'idle' ? 'loading' : ''}`}
       >
         <span className='clip-action-content'>Clip</span>
@@ -70,62 +108,6 @@ export default function $id() {
     </>
   );
 }
-
-const RangeSlider = ({
-  state,
-  ...props
-}: {
-  maxValue: number;
-  defaultValue: [number, number];
-  step: number;
-  state: SliderState;
-}) => {
-  const trackRef = React.useRef<HTMLDivElement>(null);
-  const { groupProps, trackProps, outputProps } = useSlider(props, state, trackRef);
-
-  const htmlFors = React.useMemo(() => outputProps.htmlFor?.split(' '), [outputProps.htmlFor]);
-
-  return (
-    <div
-      {...groupProps}
-      className='slider'
-      style={{
-        '--highlight-inset': `auto ${100 - state.getThumbPercent(1) * 100}% auto ${state.getThumbPercent(0) * 100}%`,
-      }}
-    >
-      <div {...trackProps} className='track' ref={trackRef}>
-        <Thumb index={0} state={state} trackRef={trackRef} id={htmlFors?.[0]} aria-label='Start time for riff' />
-        <Thumb index={1} state={state} trackRef={trackRef} id={htmlFors?.[1]} aria-label='End time for riff' />
-      </div>
-    </div>
-  );
-};
-
-const Thumb = (props: {
-  state: SliderState;
-  trackRef: React.RefObject<HTMLDivElement>;
-  index: number;
-  id?: string;
-  'aria-label': string;
-}) => {
-  const { state, trackRef, index, id, 'aria-label': ariaLabel } = props;
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const { thumbProps, inputProps } = useSliderThumb({ index, trackRef, inputRef }, state);
-  return (
-    <div {...thumbProps} className='thumb' style={{ '--left': `${state.getThumbPercent(index) * 100}%` }}>
-      <div className='visually-hidden'>
-        <input ref={inputRef} {...inputProps} aria-label={ariaLabel} aria-labelledby={undefined} />
-      </div>
-      <output htmlFor={id}>{formatToMinutesAndSeconds(state.getThumbValue(index))}</output>
-    </div>
-  );
-};
-
-const formatToMinutesAndSeconds = (value: number) => {
-  const minutes = Math.floor(value / 60);
-  const seconds = Math.floor(value % 60);
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-};
 
 const SvgPlay = () => (
   <svg width='15' height='15' viewBox='0 0 15 15' fill='none'>
