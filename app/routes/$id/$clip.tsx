@@ -16,7 +16,15 @@ export default function $clip() {
 
   return (
     <>
-      <audio src={audioUrl} controls />
+      <audio
+        src={audioUrl}
+        controls
+        ref={(el) => {
+          if (el) {
+            el.volume = 0.6; // nobody wants music to start blasting into their ears
+          }
+        }}
+      />
     </>
   );
 }

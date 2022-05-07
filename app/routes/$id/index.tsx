@@ -47,6 +47,7 @@ export default function Index() {
   const audioRef = React.useRef<HTMLAudioElement>();
   React.useEffect(() => {
     audioRef.current = new Audio(`/resource/${id}`);
+    audioRef.current.volume = 0.6; // nobody wants music to start blasting into their ears
   }, [id]);
 
   const [isPlaying, setIsPlaying] = React.useState(false);
