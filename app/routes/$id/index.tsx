@@ -1,15 +1,30 @@
 import * as React from 'react';
-import { useParams, Link, useTransition, useMatches } from 'remix';
-import type { LinksFunction } from 'remix';
+import { useParams, useTransition, useMatches, Form, redirect } from 'remix';
+import type { LinksFunction, ActionFunction } from 'remix';
 import { useInterval } from '~/helpers/useInterval';
 import { Slider } from '~/helpers/Slider';
+import { CtaButton } from '~/helpers/CtaButton';
 import { useSliderState } from '@react-stately/slider';
 import styles from './index.css';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: Slider.styles },
+  { rel: 'stylesheet', href: CtaButton.styles },
   { rel: 'stylesheet', href: styles },
 ];
+
+export const action: ActionFunction = async ({ params, request }) => {
+  const { id } = params;
+  const { clip } = Object.fromEntries(await request.formData());
+
+  const response = await fetch(`${new URL(request.url).origin}/resource/${id}/${clip}`);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch resource');
+  }
+
+  return redirect(`/${id}/${clip}`);
+};
 
 export default function Index() {
   const { id = '' } = useParams();
@@ -83,12 +98,16 @@ export default function Index() {
         </Slider>
       </div>
 
-      <Link
-        to={`${clipSliderState.getThumbValue(0)},${clipSliderState.getThumbValue(1)}`}
-        className={`clip-action ${transition.state !== 'idle' ? 'loading' : ''}`}
-      >
-        <span className='clip-action-content'>Clip</span>
-      </Link>
+      <Form method='post'>
+        <CtaButton
+          name='clip'
+          value={`${clipSliderState.getThumbValue(0)},${clipSliderState.getThumbValue(1)}`}
+          loading={transition.state !== 'idle'}
+        >
+          Clip
+        </CtaButton>
+        {transition.state !== 'idle' && <p className='visually-hidden'>Creating clip</p>}
+      </Form>
     </>
   );
 }

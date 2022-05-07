@@ -1,0 +1,49 @@
+.cta-button {
+  all: unset;
+  margin-top: 1rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.cta-button-content {
+  position: absolute;
+  transform: translateX(-50%);
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.2rem;
+  background: var(--accent-color);
+  color: white;
+  transition: transform 0.2s;
+  will-change: transform;
+}
+
+.cta-button:hover .cta-button-content {
+  transform: translate(-50%, -2px);
+}
+
+.cta-button:focus-visible .cta-button-content {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.cta-button.loading .cta-button-content {
+  background: hsl(0 0% 50% / 0.25);
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.cta-button.loading .cta-button-content::after {
+  content: '';
+  position: absolute;
+  margin-left: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 0.2em solid;
+  animation: loading 1s ease-in-out infinite;
+  --loader-color: hsl(0 0% 50%);
+  border-color: var(--loader-color) var(--loader-color) transparent transparent;
+}
