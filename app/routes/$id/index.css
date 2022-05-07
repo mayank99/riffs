@@ -1,3 +1,8 @@
+.media-controls {
+  display: flex;
+  gap: 0.25rem;
+}
+
 .slider-container {
   display: grid;
   margin: 1rem auto;
@@ -35,30 +40,4 @@
   to {
     transform: rotate(1turn);
   }
-}
-
-.play-pause-button {
-  all: unset;
-  cursor: pointer;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  transition: transform 0.2s ease-out;
-  border-radius: 50%;
-  margin: 0.5rem;
-}
-
-.play-pause-button:hover {
-  transform: scale(1.1);
-  transition: transform 0.2s ease-in;
-  background: hsl(0 0% 50% / 0.1);
-}
-
-.play-pause-button > svg {
-  width: 1.5rem;
-  height: 1.5rem;
 }
