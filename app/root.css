@@ -43,12 +43,14 @@ html {
 @media (prefers-color-scheme: dark) {
   html {
     color: hsl(0 0% 100% / 0.8);
-    background-image: linear-gradient(
+    background: linear-gradient(
       0deg,
-      hsl(240deg 18% 4%) 0%,
-      hsl(249deg 24% 11%) 21%,
-      hsl(258deg 31% 17%) 45%,
-      hsl(267deg 38% 23%) 91%
+      hsl(250deg 70% 10%) 0%,
+      hsl(283deg 65% 14%) 24%,
+      hsl(292deg 64% 17%) 44%,
+      hsl(289deg 65% 18%) 62%,
+      hsl(278deg 69% 19%) 80%,
+      hsl(266deg 73% 19%) 100%
     );
   }
 }
