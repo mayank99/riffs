@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { LinksFunction } from 'remix';
 import { useHref, useParams } from 'remix';
-import styles from './$id.$clip.css';
+import styles from './$clip.css';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 

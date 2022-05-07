@@ -51,15 +51,21 @@
   margin: 0.25rem auto;
 }
 
-/* increase tap target size on touch devices */
+/* increase tap target size to be bigger than the visible thumb */
+.thumb::after {
+  content: '';
+  position: absolute;
+  width: 1.5rem;
+  height: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* increase tap target size even more on touch devices */
 @media (pointer: coarse) {
   .thumb::after {
-    content: '';
-    position: absolute;
     height: 3rem;
     width: 3rem;
-    top: 50%;
-    transform: translateY(-50%);
   }
 }
 
