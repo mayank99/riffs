@@ -3,6 +3,7 @@ import { useSlider, useSliderThumb } from '@react-aria/slider';
 import type { SliderState } from '@react-stately/slider';
 import styles from './Slider.css';
 import { useSafeContext } from './useSafeContext';
+import { formatToMinutesAndSeconds } from './time';
 
 /**
  * Slider component build using react-aria. Needs state from `useSliderState`
@@ -66,12 +67,6 @@ export const Thumb = (props: { index?: number; 'aria-label': string; className?:
       <output htmlFor={htmlFors?.[index]}>{formatToMinutesAndSeconds(state.getThumbValue(index))}</output>
     </div>
   );
-};
-
-const formatToMinutesAndSeconds = (value: number) => {
-  const minutes = Math.floor(value / 60);
-  const seconds = Math.floor(value % 60);
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 };
 
 const SliderContext = React.createContext<{

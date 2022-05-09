@@ -11,3 +11,7 @@ audio::-webkit-media-controls-panel {
     background: hsl(270deg 40% 13%);
   }
 }
+
+p {
+  color: hsl(var(--fg-hsl) / 0.7);
+}
