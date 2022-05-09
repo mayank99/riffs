@@ -1,3 +1,10 @@
+p {
+  color: hsl(var(--fg-hsl) / 0.6);
+  max-width: min(90vw, 50ch);
+  margin: 0.5rem;
+  text-align: center;
+}
+
 .search-input-wrapper {
   display: grid;
 }
