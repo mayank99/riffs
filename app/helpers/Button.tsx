@@ -6,7 +6,7 @@ import styles from './Button.css';
  * Can be rendered as a button or as a link if `href` is passed
  */
 export const Button: Overloaded = ({ loading, variant = 'cta', children, className, onClick, href, ...rest }) => {
-  const props: ButtonProps | (AnchorProps & { [k: string]: unknown }) = {
+  const props: (ButtonProps | AnchorProps) & { [k: string]: unknown } = {
     className: `button ${variant === 'outline' ? 'outline' : ''} ${className ?? ''}`,
     'data-state': loading ? 'loading' : undefined,
     ...rest,
