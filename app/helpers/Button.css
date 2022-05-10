@@ -57,7 +57,7 @@
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 50%;
-  border: 0.2em solid;
+  border: 2px solid;
   animation: loading 1s ease-in-out infinite;
   --loader-color: hsl(0 0% 50%);
   border-color: var(--loader-color) var(--loader-color) transparent transparent;
