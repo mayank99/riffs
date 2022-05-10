@@ -3,7 +3,7 @@ import { useParams, useTransition, useMatches, Form, redirect } from 'remix';
 import type { LinksFunction, ActionFunction } from 'remix';
 import { useInterval } from '~/helpers/useInterval';
 import { Slider } from '~/helpers/Slider';
-import { CtaButton } from '~/helpers/CtaButton';
+import { Button } from '~/helpers/Button';
 import { IconButton } from '~/helpers/IconButton';
 import { useSliderState } from '@react-stately/slider';
 import { Play, Pause, FastForward, Rewind } from 'react-feather';
@@ -11,7 +11,7 @@ import styles from './index.css';
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: Slider.styles },
-  { rel: 'stylesheet', href: CtaButton.styles },
+  { rel: 'stylesheet', href: Button.styles },
   { rel: 'stylesheet', href: IconButton.styles },
   { rel: 'stylesheet', href: styles },
 ];
@@ -116,9 +116,12 @@ export default function Index() {
           step={1}
           state={clipSliderState}
           style={{
-            '--highlight-inset': `auto ${100 - clipSliderState.getThumbPercent(1) * 100}% auto ${
-              clipSliderState.getThumbPercent(0) * 100
-            }%`,
+            '--highlight-inset': [
+              'auto',
+              `${100 - clipSliderState.getThumbPercent(1) * 100}%`,
+              'auto',
+              `${clipSliderState.getThumbPercent(0) * 100}%`,
+            ].join(' '),
           }}
         >
           <Slider.Thumb className='clip-thumb' aria-label='Start time for riff' />
@@ -127,13 +130,13 @@ export default function Index() {
       </div>
 
       <Form method='post'>
-        <CtaButton
+        <Button
           name='clip'
           value={`${clipSliderState.getThumbValue(0)},${clipSliderState.getThumbValue(1)}`}
           loading={transition.state !== 'idle'}
         >
           Clip
-        </CtaButton>
+        </Button>
         {transition.state !== 'idle' && <p className='visually-hidden'>Creating clip</p>}
       </Form>
     </>
