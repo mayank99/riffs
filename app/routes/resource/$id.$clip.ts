@@ -17,7 +17,15 @@ export const loader: LoaderFunction = async ({ params }) => {
   }
 
   const inputPath = path.join(os.tmpdir(), 'input.webm');
+  if (fs.existsSync(inputPath)) {
+    fs.promises.unlink(inputPath);
+  }
+
   const outputPath = path.join(os.tmpdir(), 'output.webm');
+  if (fs.existsSync(outputPath)) {
+    fs.promises.unlink(outputPath);
+  }
+
   await fs.promises.writeFile(inputPath, originalStream);
 
   const runFfmpeg = new Promise((resolve) => {
