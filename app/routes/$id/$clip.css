@@ -15,3 +15,11 @@ audio::-webkit-media-controls-panel {
 p {
   color: hsl(var(--fg-hsl) / 0.7);
 }
+
+.button-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  column-gap: 0.5rem;
+  max-width: 75vw;
+}
