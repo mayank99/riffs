@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useParams, useTransition, useMatches, Form, redirect } from 'remix';
 import type { LinksFunction, ActionFunction } from 'remix';
-import { useInterval } from '~/helpers/useInterval';
+import { useAudio } from '~/helpers/useAudio';
 import { Slider } from '~/helpers/Slider';
 import { Button } from '~/helpers/Button';
 import { IconButton } from '~/helpers/IconButton';
@@ -44,33 +44,7 @@ export default function Index() {
     defaultValue: [center - 15, center + 15],
   });
 
-  const audioRef = React.useRef<HTMLAudioElement>();
-  React.useEffect(() => {
-    audioRef.current = new Audio(`/resource/${id}`);
-    audioRef.current.volume = 0.6; // nobody wants music to start blasting into their ears
-  }, [id]);
-
-  const [isPlaying, setIsPlaying] = React.useState(false);
-  React.useEffect(() => {
-    if (isPlaying) {
-      audioRef.current?.play();
-    } else {
-      audioRef.current?.pause();
-    }
-  }, [isPlaying]);
-
-  const [currentTime, _setCurrentTime] = React.useState(0);
-
-  // keep react state in sync with the audio element's currentTime
-  useInterval(() => _setCurrentTime(Math.round(audioRef.current?.currentTime ?? 0)), isPlaying ? 1000 : null);
-
-  // wrapper around _setCurrentTIme to update the actual currentTime of the audio element
-  const setCurrentTime = React.useCallback((value: number) => {
-    _setCurrentTime(value);
-    if (audioRef.current != null && audioRef.current.currentTime !== value) {
-      audioRef.current.currentTime = value;
-    }
-  }, []);
+  const { isPlaying, setIsPlaying, currentTime, setCurrentTime } = useAudio(`/resource/${id}`);
 
   const currentTimeSliderState = useSliderState({
     numberFormatter: React.useMemo(() => new Intl.NumberFormat(), []),
