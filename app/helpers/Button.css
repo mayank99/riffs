@@ -3,6 +3,7 @@
   margin-top: 1rem;
   cursor: pointer;
   position: relative;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .button-content {
