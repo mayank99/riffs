@@ -22,7 +22,10 @@ export const useAudio = (url: string | undefined) => {
   const [playbackRate, _setPlaybackRate] = React.useState<number>(1);
 
   // keep react state in sync with the audio element's currentTime
-  useInterval(() => _setCurrentTime(Math.round(audioRef.current?.currentTime ?? 0)), isPlaying ? 500 : null);
+  useInterval(
+    () => _setCurrentTime(parseFloat((audioRef.current?.currentTime ?? 0).toFixed(2))),
+    isPlaying ? 500 : null
+  );
 
   // wrapper around _setCurrentTime to update the actual currentTime of the audio element
   const setCurrentTime = React.useCallback((value: number) => {
