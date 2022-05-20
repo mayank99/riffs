@@ -41,3 +41,8 @@
     transform: rotate(1turn);
   }
 }
+
+.error {
+  font-style: italic;
+  color: hsl(var(--fg-hsl) / 0.7);
+}

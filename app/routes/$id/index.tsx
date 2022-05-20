@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useParams, useTransition, useMatches, Form, redirect } from 'remix';
+import { useParams, useTransition, useMatches, Form, redirect, useActionData, json } from 'remix';
 import type { LinksFunction, ActionFunction } from 'remix';
 import { useAudio } from '~/helpers/useAudio';
 import { Slider } from '~/helpers/Slider';
@@ -23,7 +23,7 @@ export const action: ActionFunction = async ({ params, request }) => {
   const response = await fetch(`${new URL(request.url).origin}/resource/${id}/${clip}`);
 
   if (!response.ok) {
-    throw new Error('Failed to fetch resource');
+    return json({ error: await response.text() }, { status: response.status });
   }
 
   return redirect(`/${id}/${clip}`);
@@ -32,6 +32,7 @@ export const action: ActionFunction = async ({ params, request }) => {
 export default function Index() {
   const { id = '' } = useParams();
   const transition = useTransition();
+  const actionData = useActionData();
 
   // get duration from parent loader
   const duration = useMatches().find(({ pathname }) => pathname == `/${id}`)?.data.duration ?? 0;
@@ -113,6 +114,10 @@ export default function Index() {
         </Button>
         {transition.state !== 'idle' && <p className='visually-hidden'>Creating clip</p>}
       </Form>
+
+      <output className='error'>
+        {transition.state === 'idle' && actionData?.error ? `Error: ${actionData.error}` : ' '}
+      </output>
     </>
   );
 }

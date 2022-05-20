@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   const [start, end] = clip.split(',').map((x) => parseInt(x, 10));
   if (end - start > 100) {
-    throw new Error('clip too long');
+    return new Response('clip too long', { status: 418 });
   }
 
   const inputPath = path.join(os.tmpdir(), 'input.webm');
