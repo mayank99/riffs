@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHref, useParams } from 'remix';
+import { useHref, useParams, useTransition } from 'remix';
 import type { LinksFunction } from 'remix';
 import { useAudio } from '~/helpers/useAudio';
 import { Button } from '~/helpers/Button';
@@ -19,6 +19,7 @@ export const links: LinksFunction = () => [
 
 export default function $clip() {
   const { id, clip } = useParams();
+  const transition = useTransition();
 
   if (!id || !clip) {
     throw new Error('Invalid route');
@@ -39,6 +40,11 @@ export default function $clip() {
     setPlaybackRate,
     audioRef,
   } = useAudio(`/resource/${id}/${clip}`);
+
+  // stop audio when navigating away
+  if (transition.state === 'loading') {
+    audioRef.current?.pause();
+  }
 
   const duration = audioRef.current?.duration ?? Math.round(end - start);
 

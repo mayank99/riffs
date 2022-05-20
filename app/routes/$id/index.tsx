@@ -45,7 +45,12 @@ export default function Index() {
     defaultValue: [center - 15, center + 15],
   });
 
-  const { isPlaying, setIsPlaying, currentTime, setCurrentTime } = useAudio(`/resource/${id}`);
+  const { isPlaying, setIsPlaying, currentTime, setCurrentTime, audioRef } = useAudio(`/resource/${id}`);
+
+  // stop audio when navigating away
+  if (transition.state === 'loading') {
+    audioRef.current?.pause();
+  }
 
   const currentTimeSliderState = useSliderState({
     numberFormatter: React.useMemo(() => new Intl.NumberFormat(), []),
