@@ -11,8 +11,14 @@ export const links: LinksFunction = () => [
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'riffs',
   viewport: 'width=device-width,initial-scale=1',
+  title: 'riffs',
+  'og:title': 'riffs',
+  'twitter:title': 'riffs',
+  description: 'Create and share riffs by clipping parts of songs',
+  'og:description': 'Create and share riffs by clipping parts of songs',
+  'twitter:description': 'Create and share riffs by clipping parts of songs',
+  'og:type': 'website',
 });
 
 export default function App() {
