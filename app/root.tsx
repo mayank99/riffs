@@ -3,7 +3,11 @@ import type { MetaFunction, LinksFunction } from 'remix';
 import styles from './root.css';
 import { SSRProvider } from '@react-aria/ssr';
 
-export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
+export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: styles },
+  { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
+  { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+];
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
