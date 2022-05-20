@@ -1,5 +1,5 @@
 import type { LoaderFunction } from 'remix';
-import dl from 'ytdl-core';
+import { dl } from '~/helpers/dl.server';
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { id: idOrUrl = '' } = params;

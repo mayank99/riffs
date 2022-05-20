@@ -1,5 +1,5 @@
 import type { LoaderFunction } from 'remix';
-import dl from 'ytdl-core';
+import { dl } from '~/helpers/dl.server';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { LinksFunction, LoaderFunction } from 'remix';
 import { useLoaderData, Outlet } from 'remix';
-import dl from 'ytdl-core';
+import { dl } from '~/helpers/dl.server';
 import styles from './$id.css';
 
 export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
