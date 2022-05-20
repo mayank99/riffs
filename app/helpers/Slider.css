@@ -37,6 +37,8 @@
   position: absolute;
   transform: translateX(-50%);
   left: var(--left);
+  transition: left var(--transition-duration) linear;
+  will-change: left;
   width: 0.5rem;
   height: 1.5rem;
   background-color: hsl(0 0% 50% / 0.75);

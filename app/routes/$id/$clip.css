@@ -1,19 +1,34 @@
-audio {
-  margin: 1rem auto;
+.media-controls {
+  display: flex;
+  gap: 0.25rem;
 }
 
-audio::-webkit-media-controls-panel {
-  background: hsl(270deg 40% 87%);
+.playback-rate {
+  display: inline-grid;
+  place-items: center;
+  font-size: 0.9rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  audio::-webkit-media-controls-panel {
-    background: hsl(270deg 40% 13%);
-  }
+.media-slider-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-p {
+.media-slider-wrapper > :first-child,
+.media-slider-wrapper > :last-child {
   color: hsl(var(--fg-hsl) / 0.7);
+}
+
+.media-slider-wrapper > .slider {
+  width: min(400px, 80vw);
+}
+
+.progress-thumb {
+  border-radius: 2px;
+  width: 0.25rem;
+  height: 2rem;
+  background: var(--accent-color);
 }
 
 .button-bar {

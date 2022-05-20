@@ -57,7 +57,10 @@ export const Thumb = (props: { index?: number; 'aria-label': string; className?:
     <div
       {...thumbProps}
       className={`thumb ${className ?? ''}`}
-      style={{ '--left': `${state.getThumbPercent(index) * 100}%` }}
+      style={{
+        '--left': `${(state.getThumbPercent(index) * 100).toFixed(2)}%`,
+        '--transition-duration': state.isThumbDragging(index) ? '0s' : '500ms',
+      }}
       id={htmlFors?.[index]}
       {...rest}
     >

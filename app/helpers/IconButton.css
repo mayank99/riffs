@@ -32,7 +32,7 @@
   cursor: not-allowed;
 }
 
-.icon-button > svg {
+.icon-button > * {
   width: 1.5rem;
   height: 1.5rem;
   opacity: 0;
@@ -40,7 +40,7 @@
   transition: opacity 0.2s ease-in;
 }
 
-.icon-button > svg[data-active='true'] {
+.icon-button > [data-active='true'] {
   opacity: 1;
   position: static;
   transition: opacity 0.2s ease-out;
