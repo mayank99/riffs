@@ -6,13 +6,14 @@ export const useAudio = (url: string | undefined) => {
   React.useEffect(() => {
     audioRef.current = new Audio(url);
     audioRef.current.volume = 0.6; // nobody wants music to start blasting into their ears
+    audioRef.current.onended = () => setIsPlaying(false);
   }, [url]);
 
   const [isPlaying, setIsPlaying] = React.useState(false);
   React.useEffect(() => {
     if (isPlaying) {
       audioRef.current?.play();
-    } else {
+    } else if (!audioRef.current?.ended) {
       audioRef.current?.pause();
     }
   }, [isPlaying]);
