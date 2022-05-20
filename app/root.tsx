@@ -1,4 +1,4 @@
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'remix';
+import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from 'remix';
 import type { MetaFunction, LinksFunction } from 'remix';
 import styles from './root.css';
 import { SSRProvider } from '@react-aria/ssr';
@@ -20,7 +20,9 @@ export default function App() {
       </head>
       <body>
         <header>
-          <h1 className='logo'>riffs</h1>
+          <Link to='/' className='logo-wrapper'>
+            <h1 className='logo'>Riffs</h1>
+          </Link>
         </header>
         <main>
           <SSRProvider>
