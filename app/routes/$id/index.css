@@ -42,6 +42,10 @@
   }
 }
 
+form {
+  margin-top: 1rem;
+}
+
 .error {
   font-style: italic;
   color: hsl(var(--fg-hsl) / 0.7);

@@ -13,6 +13,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  margin: 1rem auto;
 }
 
 .media-slider-wrapper > :first-child,
@@ -21,7 +22,7 @@
 }
 
 .media-slider-wrapper > .slider {
-  width: min(400px, 80vw);
+  width: min(400px, 70vw);
 }
 
 .progress-thumb {
@@ -32,9 +33,10 @@
 }
 
 .button-bar {
+  margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
+  gap: 0.75rem;
   justify-content: center;
-  column-gap: 0.5rem;
   max-width: 75vw;
 }

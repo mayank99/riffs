@@ -4,7 +4,7 @@
   flex-direction: column;
   gap: 0.5rem;
   align-items: center;
-  width: min(500px, 90vw);
+  width: min(500px, 85vw);
   touch-action: none;
 }
 
