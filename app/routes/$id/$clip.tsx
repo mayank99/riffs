@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useHref, useParams, useTransition } from 'remix';
+import { useHref, useMatches, useParams, useTransition } from 'remix';
 import type { LinksFunction } from 'remix';
 import { useAudio } from '~/helpers/useAudio';
 import { Button } from '~/helpers/Button';
@@ -25,6 +25,7 @@ export default function $clip() {
     throw new Error('Invalid route');
   }
 
+  const { songName, artist } = useMatches().find(({ pathname }) => pathname == `/${id}`)?.data!;
   const currentHref = useHref('');
   const fileRef = React.useRef<File>();
   const [start, end] = clip.split(',').map(Number);
@@ -51,9 +52,9 @@ export default function $clip() {
   React.useEffect(() => {
     (async () => {
       const blob = await fetch(`/resource/${id}/${clip}`).then((res) => res.blob());
-      fileRef.current = new File([blob], `${id}-${clip}.mp3`, { type: 'audio/mpeg' });
+      fileRef.current = new File([blob], `${songName}-${clip}.mp3`, { type: 'audio/mpeg' });
     })();
-  }, [clip, id]);
+  }, [clip, id, songName]);
 
   const currentTimeSliderState = useSliderState({
     numberFormatter: React.useMemo(() => new Intl.NumberFormat(), []),
@@ -68,7 +69,14 @@ export default function $clip() {
     if (fileRef.current && navigator.canShare?.({ files: [fileRef.current] })) {
       navigator.share({
         files: [fileRef.current],
-        text: 'Listen to this clip',
+        title: `Check out this riff from ${artist}`,
+        text: `${window.origin}${currentHref}`,
+        url: `${window.origin}${currentHref}`,
+      });
+    } else if (navigator.share) {
+      navigator.share({
+        title: `Check out this riff from ${artist}`,
+        text: `${window.origin}${currentHref}`,
         url: `${window.origin}${currentHref}`,
       });
     }
