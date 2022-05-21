@@ -1,8 +1,14 @@
 # riffs
 
+Riffs lets you easily clip and share sections of a song ("riffs").
+
+Give it a try at [riffs.run](http://riffs.run). Search for a song, drag the slider around to select start/end times, then create a clip!
+
 ## Development
 
-Run the following commands:
+This app is built using [`remix`](https://remix.run). Refer to their documentation for more details.
+
+To run this app locally, clone the repo, create a `.env` file with `YOUTUBE_MUSIC_KEY`, then run the following commands:
 
 ```sh
 npm install
