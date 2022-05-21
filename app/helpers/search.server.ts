@@ -1,6 +1,6 @@
 export const search = async (query: string) => {
   const response = await fetch(
-    'https://music.youtube.com/youtubei/v1/search?alt=json&key=AIzaSyC9XL3ZjWddXya6X74dJoCTL-WEYFDNX30', // don't even ask
+    `https://music.youtube.com/youtubei/v1/search?alt=json&key=${process.env.YOUTUBE_MUSIC_KEY}`,
     {
       method: 'POST',
       headers: {
@@ -11,7 +11,7 @@ export const search = async (query: string) => {
       body: JSON.stringify({
         query,
         context: { client: { clientName: 'WEB_REMIX', clientVersion: '0.1' } },
-        params: 'EgWKAQIIAWoKEAoQCRADEAQQBQ%3D%3D',
+        params: 'EgWKAQIIAWoKEAoQCRADEAQQBQ%3D%3D', // this tells YTM to only search for songs
       }),
     }
   ).then((r) => r.json());
@@ -58,13 +58,19 @@ const getId = (item: any) => {
 };
 
 const getArtists = (item: any) => {
-  return item.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs
-    .filter(
-      (r: any) =>
-        r.navigationEndpoint?.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig
-          .pageType === 'MUSIC_PAGE_TYPE_ARTIST'
-    )
-    .map((r: any) => r.text as string);
+  let artists = [];
+  try {
+    artists = item.flexColumns[1].musicResponsiveListItemFlexColumnRenderer.text.runs
+      .filter(
+        (r: any) =>
+          r.navigationEndpoint?.browseEndpoint.browseEndpointContextSupportedConfigs.browseEndpointContextMusicConfig
+            .pageType === 'MUSIC_PAGE_TYPE_ARTIST'
+      )
+      .map((r: any) => r.text as string);
+  } catch (err) {
+    console.log('Failed to parse artists', err);
+  }
+  return artists;
 };
 
 const getThumbnail = (item: any) => {
