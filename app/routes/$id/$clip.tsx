@@ -85,13 +85,11 @@ export default function $clip() {
         files: [fileRef.current],
         title: `Check out this riff from ${artist}`,
         text: `${window.origin}${currentHref}`,
-        url: `${window.origin}${currentHref}`,
       });
     } else if (navigator.share) {
       navigator.share({
         title: `Check out this riff from ${artist}`,
         text: `${window.origin}${currentHref}`,
-        url: `${window.origin}${currentHref}`,
       });
     }
   };
