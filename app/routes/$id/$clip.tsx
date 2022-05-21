@@ -98,7 +98,7 @@ export default function $clip() {
           <Volume2 data-active={volume === 0.9} strokeWidth={1.5} aria-hidden />
         </IconButton>
 
-        <IconButton onClick={() => setIsPlaying((p) => !p)} aria-label='Play/pause the song'>
+        <IconButton onClickCapture={() => setIsPlaying((p) => !p)} aria-label='Play/pause the song'>
           <Pause data-active={isPlaying} strokeWidth={1.5} aria-hidden />
           <Play data-active={!isPlaying} strokeWidth={1.5} aria-hidden />
         </IconButton>
