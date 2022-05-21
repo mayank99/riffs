@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useHref, useMatches, useParams, useTransition } from 'remix';
-import type { LinksFunction } from 'remix';
+import type { LinksFunction, MetaFunction } from 'remix';
 import { useAudio } from '~/helpers/useAudio';
 import { Button } from '~/helpers/Button';
 import { Slider } from '~/helpers/Slider';
@@ -16,6 +16,20 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: IconButton.styles },
   { rel: 'stylesheet', href: styles },
 ];
+
+export const meta: MetaFunction = ({ params, parentsData }) => {
+  const { songName, artist } = parentsData['routes/$id'];
+  const [start, end] = (params.clip as string).split(',').map(Number).map(formatToMinutesAndSeconds);
+
+  return {
+    title: `riffs | ${songName} - ${artist}`,
+    'og:title': `riffs | ${songName} - ${artist}`,
+    'twitter:title': `riffs | ${songName} - ${artist}`,
+    description: `Listen to ${start}-${end} "${songName} - ${artist}"`,
+    'og:description': `Listen to ${start}-${end} "${songName} - ${artist}"`,
+    'twitter:description': `Listen to ${start}-${end} "${songName} - ${artist}"`,
+  };
+};
 
 export default function $clip() {
   const { id, clip } = useParams();
