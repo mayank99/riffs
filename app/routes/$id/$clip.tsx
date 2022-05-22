@@ -83,8 +83,8 @@ export default function $clip() {
     if (fileRef.current && navigator.canShare?.({ files: [fileRef.current] })) {
       navigator.share({
         files: [fileRef.current],
-        title: `Check out this riff from ${artist}`,
-        text: `${window.origin}${currentHref}`,
+        text: `Check out this riff from ${artist}`,
+        url: `${window.origin}${currentHref}`,
       });
     } else if (navigator.share) {
       navigator.share({
