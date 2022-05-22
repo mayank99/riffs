@@ -22,7 +22,7 @@
 }
 
 .media-slider-wrapper > .slider {
-  width: min(400px, 70vw);
+  width: min(400px, calc(90vw - 15ch));
 }
 
 .progress-thumb {
