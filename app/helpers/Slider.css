@@ -78,7 +78,7 @@
 }
 
 /* output is shown as a "tooltip" below the thumb */
-.thumb > output {
+.thumb > .output {
   position: absolute;
   transform: translateY(100%);
   background: hsl(0 0% 50% / 0.25);
@@ -88,6 +88,6 @@
   transition: opacity 0.25s;
 }
 
-.thumb:focus-within > output {
+.thumb:focus-within > .output {
   opacity: 1;
 }

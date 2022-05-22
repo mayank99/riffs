@@ -156,7 +156,7 @@ export default function $clip() {
         <div>{formatToMinutesAndSeconds(start)}</div>
 
         <Slider maxValue={duration} defaultValue={[0]} step={1} state={currentTimeSliderState}>
-          <Slider.Thumb className='progress-thumb' aria-label='Seek audio clip' />
+          <Slider.Thumb className='progress-thumb' aria-label='Seek audio clip' supressOutput />
         </Slider>
 
         <div>{formatToMinutesAndSeconds(end)}</div>

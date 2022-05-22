@@ -30,7 +30,7 @@
 }
 
 /* always show the output "tooltip" and move it above the thumb to avoid collision */
-.progress-thumb > output {
+.progress-thumb > .output {
   opacity: 1;
   background: transparent;
   transform: translateY(-100%);

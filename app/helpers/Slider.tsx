@@ -48,8 +48,17 @@ export const Slider = ({
   );
 };
 
-export const Thumb = (props: { index?: number; 'aria-label': string; className?: string }) => {
-  const { index, 'aria-label': ariaLabel, className, ...rest } = props;
+export const Thumb = (props: {
+  index?: number;
+  'aria-label': string;
+  className?: string;
+  /**
+   * This will render the tooltip in a `<div>` instead of `<output>`.
+   * Handy when the slider updates too frequently to be useful in screen reader announcements.
+   */
+  supressOutput?: boolean;
+}) => {
+  const { index, 'aria-label': ariaLabel, supressOutput, className, ...rest } = props;
   const inputRef = React.useRef<HTMLInputElement>(null);
   const { state, outputProps, trackRef } = useSafeContext(SliderContext);
 
@@ -59,7 +68,7 @@ export const Thumb = (props: { index?: number; 'aria-label': string; className?:
 
   const { thumbProps, inputProps } = useSliderThumb({ index, trackRef, inputRef }, state);
 
-  const htmlFors = React.useMemo(() => outputProps.htmlFor?.split(' '), [outputProps.htmlFor]);
+  const inputId = React.useMemo(() => outputProps.htmlFor?.split(' ')[index], [index, outputProps.htmlFor]);
 
   return (
     <div
@@ -69,13 +78,25 @@ export const Thumb = (props: { index?: number; 'aria-label': string; className?:
         '--left': `${(state.getThumbPercent(index) * 100).toFixed(2)}%`,
         '--transition-duration': state.isThumbDragging(index) ? '0s' : '500ms',
       }}
-      id={htmlFors?.[index]}
       {...rest}
     >
       <div className='visually-hidden'>
-        <input ref={inputRef} {...inputProps} aria-label={ariaLabel} aria-labelledby={undefined} />
+        <input
+          ref={inputRef}
+          {...inputProps}
+          type='range'
+          aria-label={ariaLabel}
+          aria-labelledby={undefined}
+          aria-valuetext={formatToMinutesAndSeconds(state.getThumbValue(index))}
+        />
       </div>
-      <output htmlFor={htmlFors?.[index]}>{formatToMinutesAndSeconds(state.getThumbValue(index))}</output>
+      {supressOutput ? (
+        <div className='output'>{formatToMinutesAndSeconds(state.getThumbValue(index))}</div>
+      ) : (
+        <output className='output' htmlFor={inputId}>
+          {formatToMinutesAndSeconds(state.getThumbValue(index))}
+        </output>
+      )}
     </div>
   );
 };

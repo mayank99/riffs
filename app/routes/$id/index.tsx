@@ -87,7 +87,7 @@ export default function Index() {
 
       <div className='slider-container'>
         <Slider maxValue={duration} defaultValue={[0]} step={1} state={currentTimeSliderState}>
-          <Slider.Thumb className='progress-thumb' aria-label='Current time' />
+          <Slider.Thumb className='progress-thumb' aria-label='Current time' supressOutput />
         </Slider>
 
         <Slider
