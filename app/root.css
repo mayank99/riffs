@@ -119,6 +119,8 @@ main {
 .logo-wrapper {
   color: inherit;
   text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  border-radius: 0.5rem;
 }
 
 .logo {
@@ -126,6 +128,14 @@ main {
   font-size: 2.75rem;
   letter-spacing: -2px;
   font-family: 'Unica One', system-ui, sans-serif;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.logo-wrapper:hover > .logo,
+.logo-wrapper:focus > .logo {
+  background-color: hsl(0 0% 50% / 0.1);
 }
 
 .visually-hidden {
