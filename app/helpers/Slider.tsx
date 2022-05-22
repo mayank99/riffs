@@ -25,7 +25,15 @@ export const Slider = ({
   style?: React.CSSProperties;
 }) => {
   const trackRef = React.useRef<HTMLDivElement>(null);
-  const { groupProps, trackProps, outputProps } = useSlider(props, state, trackRef);
+  const { groupProps, trackProps, outputProps } = useSlider(
+    {
+      ...props,
+      // react-aria produces thousands of warnings which are not useful because we already have aria-label on every thumb
+      'aria-label': 'shut up',
+    },
+    state,
+    trackRef
+  );
 
   return (
     <SliderContext.Provider value={{ outputProps, trackRef, state }}>
