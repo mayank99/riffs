@@ -155,7 +155,16 @@ export default function $clip() {
       <div className='media-slider-wrapper'>
         <div>{formatToMinutesAndSeconds(start)}</div>
 
-        <Slider maxValue={duration} defaultValue={[0]} step={1} state={currentTimeSliderState}>
+        <Slider
+          maxValue={duration}
+          defaultValue={[0]}
+          step={1}
+          state={currentTimeSliderState}
+          style={{
+            '--highlight-inset': `auto ${100 - currentTimeSliderState.getThumbPercent(0) * 100}% auto 0`,
+            '--inset-transition-duration': currentTimeSliderState.isThumbDragging(0) ? '0s' : '500ms',
+          }}
+        >
           <Slider.Thumb className='progress-thumb' aria-label='Seek audio clip' supressOutput />
         </Slider>
 

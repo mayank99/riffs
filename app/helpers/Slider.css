@@ -31,6 +31,8 @@
   background: var(--accent-color);
   height: 4px;
   inset: var(--highlight-inset);
+  transition: inset var(--inset-transition-duration) linear;
+  will-change: left;
 }
 
 .thumb {
