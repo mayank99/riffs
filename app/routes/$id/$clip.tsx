@@ -25,9 +25,9 @@ export const meta: MetaFunction = ({ params, parentsData }) => {
     title: `riffs | ${songName} - ${artist}`,
     'og:title': `riffs | ${songName} - ${artist}`,
     'twitter:title': `riffs | ${songName} - ${artist}`,
-    description: `Listen to ${start}-${end} "${songName} - ${artist}"`,
-    'og:description': `Listen to ${start}-${end} "${songName} - ${artist}"`,
-    'twitter:description': `Listen to ${start}-${end} "${songName} - ${artist}"`,
+    description: `Listen to ${start}-${end} from "${songName} - ${artist}"`,
+    'og:description': `Listen to ${start}-${end} from "${songName} - ${artist}"`,
+    'twitter:description': `Listen to ${start}-${end} from "${songName} - ${artist}"`,
   };
 };
 
