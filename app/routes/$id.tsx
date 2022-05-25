@@ -8,7 +8,7 @@ export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { id = '' } = params;
-  const { videoDetails } = await dl.getInfo(id, { requestOptions: {} });
+  const { videoDetails } = await dl.getBasicInfo(id, { requestOptions: {} });
 
   return {
     songName: videoDetails.media.song ?? videoDetails.title,

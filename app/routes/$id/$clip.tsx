@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useHref, useMatches, useParams, useTransition } from 'remix';
-import type { LinksFunction, MetaFunction } from 'remix';
+import type { HeadersFunction, LinksFunction, MetaFunction } from 'remix';
 import { useAudio } from '~/helpers/useAudio';
 import { Button } from '~/helpers/Button';
 import { Slider } from '~/helpers/Slider';
@@ -16,6 +16,10 @@ export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: IconButton.styles },
   { rel: 'stylesheet', href: styles },
 ];
+
+export const headers: HeadersFunction = () => ({
+  'Cache-Control': 's-maxage=31536000, max-age=31536000',
+});
 
 export const meta: MetaFunction = ({ params, parentsData }) => {
   const { songName, artist } = parentsData['routes/$id'];
