@@ -47,6 +47,7 @@ export default function $clip() {
   const currentHref = useHref('');
   const fileRef = React.useRef<File>();
   const [start, end] = clip.split(',').map(Number);
+  const [clipboardMessage, setClipboardMessage] = React.useState('');
 
   const {
     isPlaying,
@@ -95,6 +96,10 @@ export default function $clip() {
         title: `Check out this riff from ${artist}`,
         text: `${window.origin}${currentHref}`,
       });
+    } else {
+      navigator.clipboard.writeText(`${window.origin}${currentHref}`);
+      setClipboardMessage('Copied shareable url to clipboard.');
+      setTimeout(() => setClipboardMessage(''), 3000); // clear message after 3 seconds
     }
   };
 
@@ -185,6 +190,8 @@ export default function $clip() {
           <Youtube strokeWidth={1.5} />
         </Button>
       </div>
+
+      <output className='clipboard-status'>{clipboardMessage}</output>
     </>
   );
 }

@@ -40,3 +40,7 @@
   justify-content: center;
   max-width: 75vw;
 }
+
+.clipboard-status {
+  font-style: italic;
+}
