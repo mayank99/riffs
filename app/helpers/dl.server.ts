@@ -1,1 +1,1 @@
-export { default as dl } from 'ytdl-core';
+export { default as dl } from 'youtube-dl-exec';

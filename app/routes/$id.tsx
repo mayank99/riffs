@@ -8,12 +8,12 @@ export const links: LinksFunction = () => [{ rel: 'stylesheet', href: styles }];
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { id = '' } = params;
-  const { videoDetails } = await dl.getBasicInfo(id, { requestOptions: {} });
+  const { title, channel, duration } = await dl(id, { dumpJson: true });
 
   return {
-    songName: videoDetails.media.song ?? videoDetails.title,
-    artist: videoDetails.media.artist ?? videoDetails.ownerChannelName.replace(' - Topic', ''),
-    duration: videoDetails.lengthSeconds,
+    songName: title,
+    artist: channel,
+    duration,
   };
 };
 
