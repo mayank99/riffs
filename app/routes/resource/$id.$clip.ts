@@ -9,19 +9,22 @@ const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 
 export const loader: LoaderFunction = async ({ params }) => {
   const { id: idOrUrl = '', clip = '' } = params;
-  const originalStream = dl(idOrUrl, { filter: 'audioonly', quality: 'highestaudio' });
+  const originalStream = dl(idOrUrl, {
+    filter: (format) => format.hasAudio && !format.hasVideo && format.container === 'mp4',
+    quality: 'highestaudio',
+  });
 
   const [start, end] = clip.split(',').map((x) => parseInt(x, 10));
   if (end - start > 100) {
     return new Response('clip too long', { status: 418 });
   }
 
-  const inputPath = path.join(os.tmpdir(), 'input.webm');
+  const inputPath = path.join(os.tmpdir(), 'input.mp4');
   if (fs.existsSync(inputPath)) {
     fs.promises.unlink(inputPath);
   }
 
-  const outputPath = path.join(os.tmpdir(), 'output.webm');
+  const outputPath = path.join(os.tmpdir(), 'output.mp4');
   if (fs.existsSync(outputPath)) {
     fs.promises.unlink(outputPath);
   }
@@ -49,8 +52,8 @@ export const loader: LoaderFunction = async ({ params }) => {
   return new Response(output.buffer, {
     status: 200,
     headers: {
-      'Content-Type': `audio/mpeg`,
-      'Content-Disposition': `filename="${songName}.${start}-${end}.mp3"`,
+      'Content-Type': `audio/mp4`,
+      'Content-Disposition': `filename="${songName}.${start}-${end}.mp4"`,
       'Cache-Control': 's-maxage=31536000, max-age=31536000',
       // 'Content-Length': `${output.length}`,
     },
