@@ -7,7 +7,7 @@
   "scripts": {
     "build": "remix build",
     "dev": "remix dev",
-    "postinstall": "remix setup node && patch-package"
+    "postinstall": "remix setup node"
   },
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
@@ -21,7 +21,7 @@
     "react-dom": "^17.0.2",
     "react-feather": "^2.0.9",
     "remix": "~1.4.3",
-    "ytdl-core": "^4.11.1"
+    "ytdl-core": "^4.11.2"
   },
   "devDependencies": {
     "@remix-run/dev": "~1.4.3",
