@@ -4,7 +4,7 @@ import { dl } from '~/helpers/dl.server';
 export const loader: LoaderFunction = async ({ params }) => {
   const { id: idOrUrl = '' } = params;
   const stream = dl(idOrUrl, {
-    filter: (format) => format.hasAudio && !format.hasVideo && format.container === 'mp4',
+    filter: (format) => format.hasAudio && !format.hasVideo,
     quality: 'lowestaudio',
   });
 
@@ -17,7 +17,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     headers: {
       'Content-Length': `${buffer.length}`,
       'Cache-Control': 's-maxage=31536000, max-age=31536000',
-      'Content-Type': 'audio/mp4',
+      'Content-Type': 'audio/webm',
     },
   });
 };
